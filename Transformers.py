@@ -5,12 +5,13 @@ import nltk
 
 
 class TextTransformer(BaseEstimator, TransformerMixin):
-    def __init__(self, column, max_features=5000):
+    def __init__(self):
+        max_features = 50
         self.tfidfVectorizer = TfidfVectorizer(use_idf=False, stop_words='english',
                                                tokenizer=self._custom_tokenizer, analyzer='word',
                                                max_features=max_features)
         self._vectorizer = None
-        self._column = column
+        self._column = 'description'
 
     def _custom_tokenizer(self, string):
         # string = re.sub('^[\w]', '', string)
@@ -27,4 +28,3 @@ class TextTransformer(BaseEstimator, TransformerMixin):
 
     def transform(self, df):
         return self._vectorizer.transform(df[self._column]).todense()
-11
